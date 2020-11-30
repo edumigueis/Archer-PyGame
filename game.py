@@ -24,6 +24,8 @@ player = pygame.image.load("assets/archer1.png")
 playerShoot = pygame.image.load("assets/archer2.png")
 player = pygame.transform.scale(player, (300, 300))
 playerShoot = pygame.transform.scale(playerShoot, (300, 300))
+arrow = pygame.image.load("assets/arrow.png")
+isShooting = False
 
 
 def gameplay():
@@ -32,6 +34,8 @@ def gameplay():
 
     gQuit = False
     screen.blit(bg, (0, 0))
+    global isShooting
+    isShooting = False
     while not gQuit:
         if pygame.display.get_surface() == None:
             print(errMsg)
@@ -54,11 +58,11 @@ def gameplay():
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE or event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                        # here we will shoot
                         screen.blit(bg, (0, 0))
                         screen.blit(playerShoot, (playerx, playery))
                         pygame.display.update()
-                        pygame.time.wait(600)
+                        isShooting = True
+                        shoot(playery, playerx + 30)
 
                         print("shoot")
                     if event.key == pygame.K_ESCAPE:
@@ -66,12 +70,27 @@ def gameplay():
                         introScreen()
                         return True
 
-            screen.blit(bg, (0, 0))
-            screen.blit(player, (playerx, playery))
+            if not isShooting:
+                screen.blit(bg, (0, 0))
+                screen.blit(player, (playerx, playery))
 
             pygame.display.update()
 
         clock.tick(FPS)
+
+
+def shoot(yStart, xStart):
+    arrowX = xStart + 70
+    while arrowX < width:
+        arrowX += 20
+        screen.blit(bg, (0, 0))
+        screen.blit(playerShoot, (xStart - 30, yStart))
+        screen.blit(arrow, (arrowX, yStart + 70))
+        pygame.display.update()
+
+        if arrowX > width - 100:
+            global isShooting
+            isShooting = False
 
 
 def introScreen():
