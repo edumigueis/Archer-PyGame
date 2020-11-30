@@ -81,7 +81,7 @@ def gameplay():
             global rect_change_y
             global rect_y
             rect_y += rect_change_y
-            if rect_y > height - 300 or rect_y < 0:
+            if rect_y > height - 275 or rect_y < 0:
                 rect_change_y = rect_change_y * -1
             
             screen.blit(target, (width - 200, rect_y))
@@ -100,7 +100,7 @@ def shoot(yStart, xStart):
         screen.blit(playerShoot, (xStart - 30, yStart))
         screen.blit(arrow, (arrowX, yStart + 90))
         rect_y += rect_change_y * 0.5
-        if rect_y > height - 300 or rect_y < 0:
+        if rect_y > height - 275 or rect_y < 0:
             rect_change_y = rect_change_y * -1
         screen.blit(target, (width - 200, rect_y))
         pygame.display.update()
