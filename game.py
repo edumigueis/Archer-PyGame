@@ -10,8 +10,6 @@ scr_size = (width, height) = (1018, 549)
 width = 1018
 height = 549
 FPS = 60
-mov = 4
-ALPHA = (0, 255, 0)
 
 errMsg = "Pygame display surface not rendering."
 
