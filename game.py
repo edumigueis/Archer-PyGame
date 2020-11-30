@@ -39,11 +39,13 @@ def gameplay():
         else:
             keys = pygame.key.get_pressed()  # checking pressed keys
 
-            if keys[pygame.K_UP] and playery > -50:
-                playery -= 3.5
+            if keys[pygame.K_UP] or keys[pygame.K_w]:
+                if playery > -50:
+                    playery -= 3.5
 
-            if keys[pygame.K_DOWN] and playery < 300:
-                playery += 3.5
+            if keys[pygame.K_DOWN] or keys[pygame.K_s]:
+                if playery < 300:
+                    playery += 3.5
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -56,7 +58,7 @@ def gameplay():
                         screen.blit(bg, (0, 0))
                         screen.blit(playerShoot, (playerx, playery))
                         pygame.display.update()
-                        pygame.time.wait(800)
+                        pygame.time.wait(600)
 
                         print("shoot")
                     if event.key == pygame.K_ESCAPE:
