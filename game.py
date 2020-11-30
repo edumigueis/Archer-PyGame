@@ -36,6 +36,7 @@ def gameplay():
     screen.blit(bg, (0, 0))
     global isShooting
     isShooting = False
+    move_target()
     while not gQuit:
         if pygame.display.get_surface() == None:
             print(errMsg)
@@ -63,8 +64,8 @@ def gameplay():
                         pygame.display.update()
                         isShooting = True
                         shoot(playery, playerx + 30)
-
                         print("shoot")
+
                     if event.key == pygame.K_ESCAPE:
                         gQuit = True
                         introScreen()
@@ -78,6 +79,8 @@ def gameplay():
 
         clock.tick(FPS)
 
+def move_target():
+    print("u")
 
 def shoot(yStart, xStart):
     arrowX = xStart + 70
@@ -85,7 +88,7 @@ def shoot(yStart, xStart):
         arrowX += 20
         screen.blit(bg, (0, 0))
         screen.blit(playerShoot, (xStart - 30, yStart))
-        screen.blit(arrow, (arrowX, yStart + 70))
+        screen.blit(arrow, (arrowX, yStart + 90))
         pygame.display.update()
 
         if arrowX > width - 100:
