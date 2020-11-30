@@ -104,9 +104,8 @@ def shoot(yStart, xStart):
             rect_change_y = rect_change_y * -1
         screen.blit(target, (width - 200, rect_y))
         pygame.display.update()
-
-        """if arrowX > width - 100 and yStart == rect_y: # DETECTAR COLISÃO
-            print("colide")"""
+        if arrowX > width - 100:
+            print(str(rect_y) + "e" + str(yStart)) #DETECTAR COLISÃO
 
         if arrowX > width - 100:
             global isShooting
