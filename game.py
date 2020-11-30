@@ -25,8 +25,11 @@ playerShoot = pygame.image.load("assets/archer2.png")
 player = pygame.transform.scale(player, (300, 300))
 playerShoot = pygame.transform.scale(playerShoot, (300, 300))
 arrow = pygame.image.load("assets/arrow.png")
+target = pygame.image.load("assets/target.png")
+target = pygame.transform.scale(target, (170, 279))
 isShooting = False
-
+rect_change_y = 2
+rect_y = 50
 
 def gameplay():
     playery = 0
@@ -36,7 +39,6 @@ def gameplay():
     screen.blit(bg, (0, 0))
     global isShooting
     isShooting = False
-    move_target()
     while not gQuit:
         if pygame.display.get_surface() == None:
             print(errMsg)
@@ -63,8 +65,8 @@ def gameplay():
                         screen.blit(playerShoot, (playerx, playery))
                         pygame.display.update()
                         isShooting = True
+                        pygame.event.set_blocked(pygame.KEYDOWN)
                         shoot(playery, playerx + 30)
-                        print("shoot")
 
                     if event.key == pygame.K_ESCAPE:
                         gQuit = True
@@ -72,24 +74,39 @@ def gameplay():
                         return True
 
             if not isShooting:
+                pygame.event.set_allowed(pygame.KEYDOWN)
                 screen.blit(bg, (0, 0))
                 screen.blit(player, (playerx, playery))
 
+            global rect_change_y
+            global rect_y
+            rect_y += rect_change_y
+            if rect_y > height - 300 or rect_y < 0:
+                rect_change_y = rect_change_y * -1
+            
+            screen.blit(target, (width - 200, rect_y))
             pygame.display.update()
 
         clock.tick(FPS)
 
-def move_target():
-    print("u")
 
 def shoot(yStart, xStart):
     arrowX = xStart + 70
+    global rect_change_y
+    global rect_y
     while arrowX < width:
         arrowX += 20
         screen.blit(bg, (0, 0))
         screen.blit(playerShoot, (xStart - 30, yStart))
         screen.blit(arrow, (arrowX, yStart + 90))
+        rect_y += rect_change_y * 0.5
+        if rect_y > height - 300 or rect_y < 0:
+            rect_change_y = rect_change_y * -1
+        screen.blit(target, (width - 200, rect_y))
         pygame.display.update()
+
+        """if arrowX > width - 100 and yStart == rect_y: # DETECTAR COLISÃO
+            print("colide")"""
 
         if arrowX > width - 100:
             global isShooting
