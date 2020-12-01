@@ -3,8 +3,9 @@ import sys
 import pygame
 
 pygame.init()
-bitSmall = pygame.font.Font('assets/8bitOperatorPlus-Bold.ttf', 20)
-bit = pygame.font.Font('assets/8bitOperatorPlus-Bold.ttf', 60)
+os.chdir(os.path.dirname(__file__))
+bitSmall = pygame.font.Font(os.getcwd() + '\\assets\\8bitOperatorPlus-Bold.ttf', 20)
+bit = pygame.font.Font(os.getcwd() + '\\assets\\8bitOperatorPlus-Bold.ttf', 60)
 
 scr_size = (width, height) = (1018, 549)
 width = 1018
@@ -21,15 +22,18 @@ clock = pygame.time.Clock()
 pygame.display.set_caption("Archer Game")
 bg = pygame.image.load("assets/bg.png")
 player = pygame.image.load("assets/archer1.png")
-playerShoot = pygame.image.load("assets/archer2.png")
+player_shoot = pygame.image.load("assets/archer2.png")
 player = pygame.transform.scale(player, (300, 300))
-playerShoot = pygame.transform.scale(playerShoot, (300, 300))
+player_shoot = pygame.transform.scale(player_shoot, (300, 300))
 arrow = pygame.image.load("assets/arrow.png")
 target = pygame.image.load("assets/target.png")
 target = pygame.transform.scale(target, (170, 279))
-isShooting = False
-rect_change_y = 2
-rect_y = 50
+target_lightning = pygame.image.load("assets/target_lightning.png")
+target_lightning = pygame.transform.scale(target_lightning, (215, 690))
+is_shooting = False
+rect_y = 270
+is_moving_down = True
+shock_x = 1
 
 def gameplay():
     playery = 0
@@ -37,8 +41,8 @@ def gameplay():
 
     gQuit = False
     screen.blit(bg, (0, 0))
-    global isShooting
-    isShooting = False
+    global is_shooting
+    is_shooting = False
     while not gQuit:
         if pygame.display.get_surface() == None:
             print(errMsg)
@@ -62,9 +66,9 @@ def gameplay():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE or event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                         screen.blit(bg, (0, 0))
-                        screen.blit(playerShoot, (playerx, playery))
+                        screen.blit(player_shoot, (playerx, playery))
                         pygame.display.update()
-                        isShooting = True
+                        is_shooting = True
                         pygame.event.set_blocked(pygame.KEYDOWN)
                         shoot(playery, playerx + 30)
 
@@ -73,18 +77,42 @@ def gameplay():
                         introScreen()
                         return True
 
-            if not isShooting:
+            if not is_shooting:
                 pygame.event.set_allowed(pygame.KEYDOWN)
                 screen.blit(bg, (0, 0))
                 screen.blit(player, (playerx, playery))
 
             global rect_change_y
             global rect_y
-            rect_y += rect_change_y
-            if rect_y > height - 275 or rect_y < 0:
-                rect_change_y = rect_change_y * -1
-            
-            screen.blit(target, (width - 200, rect_y))
+            global is_moving_down
+            global shock_x
+
+            shock_x = -shock_x
+            if is_moving_down == True:
+                rect_y += 2
+                if rect_y > height/7:
+                    rect_y += 1
+                if rect_y > height/5:
+                    rect_y += 1
+                if rect_y > height/4:
+                    rect_y += 2
+                if rect_y > height/3:
+                    rect_y += 2
+            else:
+                rect_y -= 2
+
+            if rect_y > height - 275:
+                is_moving_down = -is_moving_down
+                rect_y = 275
+            elif rect_y < 0:
+                is_moving_down = -is_moving_down
+                rect_y = 0
+
+            if is_moving_down == True:
+                screen.blit(target, (width - 174, rect_y))
+            else:
+                screen.blit(target_lightning, (width - 200 - shock_x, rect_y))
+
             pygame.display.update()
 
         clock.tick(FPS)
@@ -97,7 +125,7 @@ def shoot(yStart, xStart):
     while arrowX < width:
         arrowX += 20
         screen.blit(bg, (0, 0))
-        screen.blit(playerShoot, (xStart - 30, yStart))
+        screen.blit(player_shoot, (xStart - 30, yStart))
         screen.blit(arrow, (arrowX, yStart + 90))
         rect_y += rect_change_y * 0.5
         if rect_y > height - 275 or rect_y < 0:
@@ -108,8 +136,8 @@ def shoot(yStart, xStart):
             print(str(rect_y) + "e" + str(yStart)) #DETECTAR COLISÃO
 
         if arrowX > width - 100:
-            global isShooting
-            isShooting = False
+            global is_shooting
+            is_shooting = False
 
 
 def introScreen():
