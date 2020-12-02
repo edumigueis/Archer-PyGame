@@ -120,20 +120,49 @@ def gameplay():
 
 def shoot(yStart, xStart):
     arrowX = xStart + 70
-    global rect_change_y
+    global is_moving_down
     global rect_y
+    global shock_x
+    crashed = False
+
     while arrowX < width:
-        arrowX += 20
         screen.blit(bg, (0, 0))
         screen.blit(player_shoot, (xStart - 30, yStart))
         screen.blit(arrow, (arrowX, yStart + 90))
-        rect_y += rect_change_y * 0.5
-        if rect_y > height - 275 or rect_y < 0:
-            rect_change_y = rect_change_y * -1
-        screen.blit(target, (width - 200, rect_y))
+
+        arrowX += 20
+        shock_x = -shock_x
+
+        if is_moving_down == True:
+                rect_y += 2
+                if rect_y > height/7:
+                    rect_y += 1
+                if rect_y > height/5:
+                    rect_y += 1
+                if rect_y > height/4:
+                    rect_y += 2
+                if rect_y > height/3:
+                    rect_y += 2
+        else:
+            rect_y -= 2
+
+        if rect_y > height - 275:
+            is_moving_down = -is_moving_down
+            rect_y = 275
+        elif rect_y < 0:
+            is_moving_down = -is_moving_down
+            rect_y = 0
+
+        if is_moving_down == True:
+            screen.blit(target, (width - 174, rect_y))
+        else:
+            screen.blit(target_lightning, (width - 200 - shock_x, rect_y))
+
         pygame.display.update()
-        if arrowX > width - 100:
-            print(str(rect_y) + "e" + str(yStart)) #DETECTAR COLISÃO
+ 
+        if arrowX > width - 100 and yStart + 90 > rect_y and yStart + 90 < rect_y + 150 and crashed == False:
+            print("crash")
+            crashed = True
 
         if arrowX > width - 100:
             global is_shooting
