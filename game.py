@@ -6,6 +6,7 @@ pygame.init()
 os.chdir(os.path.dirname(__file__))
 bitSmall = pygame.font.Font(os.getcwd() + '\\assets\\8bitOperatorPlus-Bold.ttf', 20)
 bit = pygame.font.Font(os.getcwd() + '\\assets\\8bitOperatorPlus-Bold.ttf', 60)
+bitExtraSmall = pygame.font.Font(os.getcwd() + '\\assets\\8bitOperatorPlus-Bold.ttf', 15)
 
 scr_size = (width, height) = (1018, 549)
 width = 1018
@@ -34,6 +35,7 @@ is_shooting = False
 rect_y = 270
 is_moving_down = True
 shock_x = 1
+points = 0
 
 def gameplay():
     playery = 0
@@ -112,6 +114,10 @@ def gameplay():
                 screen.blit(target, (width - 174, rect_y))
             else:
                 screen.blit(target_lightning, (width - 200 - shock_x, rect_y))
+            
+            global points
+            pt = bitSmall.render(str(points), True, (250, 250, 250))
+            screen.blit(pt, (width - 75, 20))
 
             pygame.display.update()
 
@@ -123,12 +129,15 @@ def shoot(yStart, xStart):
     global is_moving_down
     global rect_y
     global shock_x
+    global points
     crashed = False
 
     while arrowX < width:
         screen.blit(bg, (0, 0))
         screen.blit(player_shoot, (xStart - 30, yStart))
         screen.blit(arrow, (arrowX, yStart + 90))
+        pt = bitSmall.render(str(points), True, (250, 250, 250))
+        screen.blit(pt, (width - 75, 20))
 
         arrowX += 20
         shock_x = -shock_x
@@ -160,8 +169,21 @@ def shoot(yStart, xStart):
 
         pygame.display.update()
  
-        if arrowX > width - 100 and yStart + 90 > rect_y and yStart + 90 < rect_y + 150 and crashed == False:
-            print("crash")
+        if arrowX > width - 100 and yStart + 90 > rect_y - 40 and yStart + 90 < rect_y + 150 and crashed == False:
+            if yStart >= rect_y and yStart < rect_y + 40:
+                points+=10;
+            elif yStart <= rect_y and yStart > rect_y - 30:
+                points+=20;
+            elif yStart <= rect_y and yStart > rect_y - 50:
+                points+=30;
+            elif yStart <= rect_y and yStart > rect_y - 60:
+                points+=40;
+            elif yStart <= rect_y and yStart > rect_y - 70:
+                points+=30;
+            elif yStart <= rect_y and yStart > rect_y - 100:
+                points+=20;
+            elif yStart <= rect_y and yStart > rect_y - 170:
+                points+=10;
             crashed = True
 
         if arrowX > width - 100:
@@ -172,6 +194,8 @@ def shoot(yStart, xStart):
 def introScreen():
     backToMain = False
     while not backToMain:
+        global points
+        points = 0
         screen.blit(bg, (0, 0))
         if pygame.display.get_surface() == None:
             print(errMsg)
@@ -191,7 +215,10 @@ def introScreen():
             screen.blit(title, (width/3 - 25, height/2 - 30))
             text = bitSmall.render(
                 "Press space or enter to star the game.", True, (250, 250, 250))
-            screen.blit(text, (width/3 - 25, height/2 + 60))
+            screen.blit(text, (width/3 - 37, height/2 + 60))
+            sub = bitExtraSmall.render(
+                "Points: yellow- 40, red- 30, black- 20, white- 10", True, (250, 250, 250))
+            screen.blit(sub, (20, height - 30))
             pygame.display.update()
         else:
             print(errMsg)
