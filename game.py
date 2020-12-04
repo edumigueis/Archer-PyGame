@@ -6,22 +6,22 @@ import sys
 import pygame
 
 pygame.init()
-os.chdir(os.path.dirname(__file__))
+
+# font loading
+os.chdir(os.path.dirname(__file__))  # changes diroctory to load fonts
 bit_small = pygame.font.Font(
     os.getcwd() + '\\assets\\8bitOperatorPlus-Bold.ttf', 20)
 bit = pygame.font.Font(os.getcwd() + '\\assets\\8bitOperatorPlus-Bold.ttf', 60)
 bit_extra_small = pygame.font.Font(
     os.getcwd() + '\\assets\\8bitOperatorPlus-Bold.ttf', 15)
 
+# screen init and basic functions
 scr_size = (width, height) = (1018, 549)
 width = 1018
 height = 549
 FPS = 60
 
-err_msg = "Pygame display surface not rendering."
-
-white = (240, 240, 240)
-
+# assets loaded
 screen = pygame.display.set_mode(scr_size)
 clock = pygame.time.Clock()
 pygame.display.set_caption("Archer Game")
@@ -35,19 +35,23 @@ target = pygame.image.load("assets/target.png")
 target = pygame.transform.scale(target, (170, 279))
 target_lightning = pygame.image.load("assets/target_lightning.png")
 target_lightning = pygame.transform.scale(target_lightning, (215, 690))
+
+# glabal variables of logic
 is_shooting = False
 rect_y = 270
 is_moving_down = True
 shock_x = 1
 points = 0
+# message saved here to avoid repetition
+err_msg = "Pygame display surface not rendering."
 
 
-def gameplay():
+def gameplay():  # main method that controls how the gameplay goes
     playery = 0
-    playerx = -80
+    playerx = -80  # player x position
 
     gm_quit = False
-    screen.blit(bg, (0, 0))
+    screen.blit(bg, (0, 0))  # empties the screen
     global is_shooting
     is_shooting = False
     while not gm_quit:  # main loop while user does not quit
