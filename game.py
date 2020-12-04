@@ -8,12 +8,13 @@ import pygame
 pygame.init()
 
 # font loading
+font_path = '\\assets\\8bitOperatorPlus-Bold.ttf'
 os.chdir(os.path.dirname(__file__))  # changes diroctory to load fonts
 bit_small = pygame.font.Font(
-    os.getcwd() + '\\assets\\8bitOperatorPlus-Bold.ttf', 20)
-bit = pygame.font.Font(os.getcwd() + '\\assets\\8bitOperatorPlus-Bold.ttf', 60)
+    os.getcwd() + font_path, 20)
+bit = pygame.font.Font(os.getcwd() + font_path, 60)
 bit_extra_small = pygame.font.Font(
-    os.getcwd() + '\\assets\\8bitOperatorPlus-Bold.ttf', 15)
+    os.getcwd() + font_path, 15)
 
 # screen init and basic functions
 scr_size = (width, height) = (1018, 549)
@@ -230,8 +231,8 @@ def introScreen():  # loads the intro screen
                 "Press space or enter to star the game.", True, (250, 250, 250))
             screen.blit(text, (width/3 - 37, height/2 + 60))
             sub = bit_extra_small.render(
-                "Points: yellow- 40, red- 30, black- 20, white- 10. Space to shoot.", True, (250, 250, 250))
-            screen.blit(sub, (20, height - 30))
+                "Points: yellow - 40, red - 30, black - 20, white - 10. Space to shoot.", True, (250, 250, 250))
+            screen.blit(sub, (width - 585, height - 32))
             pygame.display.update()
         else:
             print(err_msg)
