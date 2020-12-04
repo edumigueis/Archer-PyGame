@@ -42,6 +42,7 @@ rect_y = 270
 is_moving_down = True
 shock_x = 1
 points = 0
+
 # message saved here to avoid repetition
 err_msg = "Pygame display surface not rendering."
 
