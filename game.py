@@ -9,7 +9,7 @@ pygame.init()
 
 # font loading
 font_path = '\\assets\\8bitOperatorPlus-Bold.ttf'
-os.chdir(os.path.dirname(__file__))  # changes diroctory to load fonts
+os.chdir(os.path.dirname(__file__))  # changes directory to load fonts
 bit_small = pygame.font.Font(
     os.getcwd() + font_path, 20)
 bit = pygame.font.Font(os.getcwd() + font_path, 60)

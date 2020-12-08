@@ -16,9 +16,9 @@ To run this project you need python in a recent version and pip to install pygam
 ```
 cd Archer-PyGame
 pip install pygame
-& python C:/games/Archer-PyGame/main.py
+& python C:/games/Archer-PyGame/game.py
 ```
-Cd is for changing directory to the project folder. The pip install command is for installing the required package. The last command is to run main.py(note that you must use the full file path).
+Cd is for changing directory to the project folder. The pip install command is for installing the required package. The last command is to run game.py(note that you must use the full file path).
 
 ### Clone
 
