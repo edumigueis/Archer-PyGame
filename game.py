@@ -1,5 +1,6 @@
 """
 Copyright (c) Eduardo Migueis and Rodrigo Smith 2020.
+Licensed under the Apache-2.0 LICENSE.
 """
 import os
 import sys
